@@ -1,0 +1,16 @@
+<div class="item" (click)="goToProduct()">
+  <div class="title">{{item?.description}}</div>
+  <div class="image">
+    <img [src]="item?.imageUrl">
+  </div>
+  <div class="purchase-date">
+    Purchased on : {{item?.purchaseDate | date}}
+  </div>
+  <div class="price">
+    {{item?.price / 100 | currency}}
+  </div>
+  <div class="buy-now">
+    <button class="btn btn-primary">Buy Now</button>
+  </div>
+  
+</div>
