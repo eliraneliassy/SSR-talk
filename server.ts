@@ -11,7 +11,7 @@ import { enableProdMode } from './node_modules/@angular/core';
 enableProdMode();
 
 const app = express();
-const indexHtml = readFileSync(__dirname + '\\dist\\index.html', 'utf-8').toString();
+const indexHtml = readFileSync(__dirname + '/dist/index.html', 'utf-8').toString();
 
 
 app.get('*.*', express.static(__dirname + '/dist', {
