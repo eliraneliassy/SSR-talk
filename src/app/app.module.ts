@@ -18,7 +18,7 @@ import { SearchPageItemComponent } from './components/search-page-item/search-pa
     SearchPageItemComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     HttpClientModule
   ],

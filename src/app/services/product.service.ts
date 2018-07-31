@@ -7,15 +7,15 @@ import { map } from 'rxjs/operators';
 })
 export class ProductService {
 
-  BASE_URL = 'https://api.fashbash.co/api/feed';
+  BASE_URL = 'https://ssr-talk.firebaseio.com/items.json';
   constructor(private http: HttpClient) { }
 
   getItems() {
-    return this.http.get(this.BASE_URL + '/user?userId=ScmFo3JxStXB6GZ62RKSB83LsoE3&page=0');
+    return this.http.get(this.BASE_URL);
   }
 
   getProductById(id: string) {
-    return this.http.get(this.BASE_URL + '/user?userId=ScmFo3JxStXB6GZ62RKSB83LsoE3&page=0')
+    return this.http.get(this.BASE_URL)
       .pipe(
         map((res: any[]) => {
           return res.filter(x => x.fashbashId === id);
