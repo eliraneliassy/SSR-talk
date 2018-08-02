@@ -1,5 +1,9 @@
 <app-header></app-header>
 
 <div class="container text-center">
-    <router-outlet></router-outlet>
+    <ng-container *appSsrNoRender>
+        <router-outlet></router-outlet>
+    </ng-container>
+
+    <div class="loader" *appSsrRender></div>
 </div>
