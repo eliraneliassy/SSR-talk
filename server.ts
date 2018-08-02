@@ -1,8 +1,11 @@
+import { ngExpressEngine } from '@nguniversal/express-engine';
+import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
+
 import { renderModuleFactory } from '@angular/platform-server';
 import 'zone.js/dist/zone-node';
 import 'reflect-metadata';
 
-const { AppServerModuleNgFactory } = require('./dist-server/main');
+const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./dist-server/main');
 
 import * as express from 'express';
 import { readFileSync } from 'fs';
@@ -11,29 +14,22 @@ import { enableProdMode } from './node_modules/@angular/core';
 enableProdMode();
 
 const app = express();
-const indexHtml = readFileSync(__dirname + '/dist/index.html', 'utf-8').toString();
+const distPath = __dirname + '/dist';
 
-
-app.get('*.*', express.static(__dirname + '/dist', {
-    maxAge: '5y'
+app.engine('html', ngExpressEngine({
+    bootstrap: AppServerModuleNgFactory,
+    providers: [provideModuleMap(LAZY_MODULE_MAP)]
 }));
 
-app.route('*').get((req, res) => {
+app.set('view engine', 'html');
+app.set('views', distPath);
 
-    renderModuleFactory(AppServerModuleNgFactory, {
-        document: indexHtml,
-        url: req.url
-    })
-        .then(html => res.status(200).send(html))
-        .catch(err => {
-            console.log(err);
-            res.sendStatus(500);
-        });
+app.get('*.*', express.static(distPath));
 
-
+app.get('*', (req, res) => {
+    res.render('index', {req});
 });
-
 
 app.listen(4500, () => {
     console.log('express running on port 4500');
- });
+});
